@@ -23,28 +23,19 @@
     <div class="container empty-4">
         <div class="card">
             <div class="card-header">
-                Register Form
+                Login Form
             </div>
             <div class="card-body">
-                <form action="/auth/register" method="POST">
+                <form action="/auth/login" method="POST">
                     <div class="mb-3">
-                        <label for="name">Name</label>
-                        <input type="text" class="form-control" id="name" name="name" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="email">Email Address</label>
+                        <label for="email">Email</label>
                         <input type="email" class="form-control" id="email" name="email" required>
                     </div>
                     <div class="mb-3">
                         <label for="password">Password</label>
                         <input type="password" class="form-control" id="password" name="password" required>
                     </div>
-                    <div class="mb-3">
-                        <label for="passwordConfirm">Confirm Password</label>
-                        <input type="password" class="form-control" id="passwordConfirm" name="passwordConfirm" required>
-                    </div>
-
-                    <button type="submit" class="btn btn-primary">Register User</button>
+                    <button type="submit" class="btn btn-primary">Login User</button>
                 </form>
             </div>
         </div>

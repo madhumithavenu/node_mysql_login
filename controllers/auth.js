@@ -2,6 +2,7 @@ const mysql = require('mysql');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const async = require('hbs/lib/async');
+const { response } = require('express');
 
 const db = mysql.createConnection({
     host: process.env.DATABASE_HOST,
@@ -10,11 +11,11 @@ const db = mysql.createConnection({
     database: process.env.DATABASE
 })
 
-exports.register = (req, res) => {
+module.exports.register = (req, res) => {
     console.log(req.body);
 
     const { name, email, password, passwordConfirm } = req.body;
-    db.query('SELECT email FROM users WHERE email=?', [email], async (err, results) => {
+    db.query('SELECT EMAIL FROM USERS WHERE email=?', [email], async (err, results) => {
         if (err) {
             console.log(err);
         }
@@ -28,20 +29,39 @@ exports.register = (req, res) => {
             })
         }
 
-        let hashedPassword = await bcrypt.hash(password, 8);
-        console.log(hashedPassword);
+        // let hashedPassword = await bcrypt.hash(password, 8);
+        // console.log(hashedPassword);
 
         // res.send("testing");
-        db.query('INSERT INTO users SET ?', { name: name, email: email, password: hashedPassword }, (err, results)=>{
-            if(err){
+        db.query('INSERT INTO USERS SET ?', { NAME: name, EMAIL: email, PASSWORD: password }, (err, results) => {
+            if (err) {
                 console.log(err);
-            }else{
+            } else {
                 console.log(results);
-                return res.render('register',{
+                return res.render('register', {
                     message: 'User registered'
                 })
             }
         })
     });
 
+}
+module.exports.login = (req, res) => {
+    //console.log(req.body);
+
+    const { email, password } = req.body;
+
+    db.query("SELECT * FROM USERS WHERE EMAIL=?", [email], (err, rs) => {
+        if (err) return console.log(err);
+        if (rs.length === 0) return res.render('login',{ message: "No user found" });
+        rs.forEach(ele => {
+            if (email === ele.EMAIL) {
+                if (password === ele.PASSWORD) {
+                    return res.render('index',{ message: "Login Successfull" });
+                } else {
+                    return res.render('login',{ message: "Invalid password" });
+                }
+            }
+        });
+    })
 }
