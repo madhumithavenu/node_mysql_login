@@ -1,5 +1,4 @@
 const express = require('express');
-const session = require('express-session');
 const path = require('path');
 const mysql = require('mysql');
 const dotenv = require('dotenv');
@@ -35,9 +34,3 @@ app.use('/auth', require('./routes/auth'));
 app.listen(5000, () => {
     console.log("Server Started on port 5000");
 })
-
-app.use(session({
-    secret: 'secret',
-    resave:true,
-    saveUninitialized: true
-}));
